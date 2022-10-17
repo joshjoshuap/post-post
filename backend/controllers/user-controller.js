@@ -4,7 +4,15 @@ const UserModel = require("../models/user-model");
 
 // GET: /api/user/
 exports.getUsers = async (req, res, next) => {
-  res.send("Users");
+  let users;
+
+  try {
+    users = await UserModel.find({}, "-password");
+  } catch (err) {
+    console.log("Fetching User Failed");
+  }
+
+  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
 // POST: /api/user/login

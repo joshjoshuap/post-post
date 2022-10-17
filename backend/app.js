@@ -11,6 +11,15 @@ app.use(bodyParser.json()); // parsing json body data
 
 app.use("/api/user", userRoute);
 
+// error handling
+app.use((error, req, res, next) => {
+  if (res.headerSent) {
+    return next(error);
+  }
+  res.status(error.code || 500);
+  res.json({ message: error.message || "An unkown error occured" });
+});
+
 mongoose
   .connect(process.env.MONGODB_ATLAS_CONNECTION)
   .then(() => {

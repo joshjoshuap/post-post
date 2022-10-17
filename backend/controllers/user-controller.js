@@ -3,13 +3,39 @@ const bcrypt = require("bcryptjs");
 const UserModel = require("../models/user-model");
 
 // GET: /api/user/
-exports.getUsers = (req, res, next) => {
+exports.getUsers = async (req, res, next) => {
   res.send("Users");
 };
 
 // POST: /api/user/login
-exports.postLogin = (req, res, next) => {
-  res.send("Login");
+exports.postLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+  let existingUser;
+  try {
+    existingUser = await UserModel.findOne({ email: email });
+  } catch (err) {
+    console.log("Finding User Failed", err);
+  }
+
+  if (!existingUser) {
+    console.log("Email / User does not exist, Register Now");
+  }
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcypt.compare(password, existingUser.password);
+  } catch (err) {
+    console.log("Login Hashing Failed", err);
+  }
+
+  if (!isValidPassword) {
+    console.log("Invalid Password");
+  }
+
+  res.json({
+    message: "Logged In",
+    user: existingUser.toObject({ getters: true }),
+  });
 };
 
 // POST: /api/user/signup

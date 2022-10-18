@@ -47,6 +47,8 @@ exports.postLogin = async (req, res, next) => {
   if (!isValidPassword) {
     console.log("Invalid Password");
     return next(new HttpError("Invalid Password", 422));
+  } else {
+    console.log("Logged In Successful");
   }
 
   res.json({

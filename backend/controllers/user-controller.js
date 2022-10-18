@@ -75,6 +75,7 @@ exports.postSignup = async (req, res, next) => {
 
   if (existingUser) {
     console.log("Email Exist");
+    return next(new HttpError("Email Exist", 422));
   }
 
   let hashedPassword;

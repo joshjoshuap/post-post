@@ -8,6 +8,18 @@ const userRoute = require("./routes/user-route");
 const app = express();
 
 app.use(bodyParser.json()); // parsing json body data
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    `${process.env.ALLOW_ORIGIN_URL}`
+  ); // cors access
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  next();
+});
 
 app.use("/api/user", userRoute);
 

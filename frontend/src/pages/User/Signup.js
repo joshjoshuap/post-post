@@ -30,9 +30,10 @@ const Signup = () => {
   };
 
   const formSubmitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // prevent reload web
     // setIsLoading(true);
     try {
+      // fetch - send data to url api
       const res = await fetch(`${apiBackendUrl}/api/user/signup`, {
         method: "POST",
         headers: {
@@ -46,7 +47,7 @@ const Signup = () => {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json(); // get response
 
       if (!res.ok) {
         throw new Error(data.message); // server error message

@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 
+// Intialize
 const HttpError = require("../middleware/http-error");
 const UserModel = require("../models/user-model");
 
@@ -8,6 +9,7 @@ const UserModel = require("../models/user-model");
 exports.getUsers = async (req, res, next) => {
   let users;
 
+  // find list of users
   try {
     users = await UserModel.find({}, "-password");
   } catch (err) {
@@ -20,8 +22,10 @@ exports.getUsers = async (req, res, next) => {
 
 // POST: /api/user/login
 exports.postLogin = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body; // get parse body data
   let existingUser;
+
+  // find exisiting user
   try {
     existingUser = await UserModel.findOne({ email: email });
   } catch (err) {
@@ -36,6 +40,7 @@ exports.postLogin = async (req, res, next) => {
     );
   }
 
+  // check password
   let isValidPassword = false;
   try {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
@@ -65,8 +70,9 @@ exports.postSignup = async (req, res, next) => {
     return next(new HttpError(errors.array()[0].msg, 422));
   }
 
-  const { name, email, password } = req.body;
+  const { name, email, password } = req.body; // get parse body data
 
+  // find exisiting user
   let existingUser;
   try {
     existingUser = await UserModel.findOne({ email: email });
@@ -80,6 +86,7 @@ exports.postSignup = async (req, res, next) => {
     return next(new HttpError("Email Exist", 422));
   }
 
+  // encrypt password
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(password, 12);
@@ -88,12 +95,14 @@ exports.postSignup = async (req, res, next) => {
     return next(new HttpError("Password Invalid", 422));
   }
 
+  // creating new user
   const createUser = new UserModel({
     name,
     email,
     password: hashedPassword,
   });
 
+  // saving new user
   try {
     await createUser.save();
     console.log("Signup Success");

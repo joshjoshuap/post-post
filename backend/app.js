@@ -3,10 +3,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
+// Routing
 const userRoute = require("./routes/user-route");
 
+// Intialize
 const app = express();
 
+// Configuration
 app.use(bodyParser.json()); // parsing json body data
 app.use((req, res, next) => {
   res.setHeader(
@@ -19,11 +22,11 @@ app.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
-});
+}); // cors, headers configruation
 
 app.use("/api/user", userRoute);
 
-// error handling
+// Error Handling
 app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error);
@@ -32,6 +35,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unkown error occured" });
 });
 
+// Database Connection, Server
 mongoose
   .connect(process.env.MONGODB_ATLAS_CONNECTION)
   .then(() => {

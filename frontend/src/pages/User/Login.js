@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL; // api url
   const navigate = useNavigate();
 
   const [inputEmail, setInputEmail] = useState("");
@@ -22,6 +22,7 @@ const Login = () => {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
+      // fetch - send data to url api
       const res = await fetch(`${apiBackendUrl}/api/user/login`, {
         method: "POST",
         headers: {
@@ -33,8 +34,9 @@ const Login = () => {
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json(); // get response
 
+      // check reponse status
       if (!res.ok) {
         throw new Error(data.message); // server error message
       }

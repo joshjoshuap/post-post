@@ -3,8 +3,8 @@ const { check } = require("express-validator");
 
 const userController = require("../controllers/user-controller");
 
+// Validations
 let loginValidation = [check("password").trim()];
-
 let signupValidation = [
   check("email")
     .not()

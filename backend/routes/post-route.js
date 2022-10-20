@@ -6,13 +6,13 @@ const postController = require("../controllers/post-controller");
 const router = express.Router();
 
 // Get: /api/posts/
-router.get("/");
+router.get("/", postController.getAllPosts);
 
 // Get: /api/post/id1
-router.get("/:postId");
+router.get("/:postId", postController.getPostById);
 
 // Get: /api/post/user/id1
-router.get("/user/:userId");
+router.get("/user/:userId", postController.getPostByUserId);
 
 // Post: /api/post/
 router.post("/", postController.createPost);

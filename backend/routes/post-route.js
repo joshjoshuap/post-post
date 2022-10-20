@@ -5,6 +5,21 @@ const postController = require("../controllers/post-controller");
 
 const router = express.Router();
 
+const postValidation = [
+  check("title")
+    .not()
+    .isEmpty()
+    .isLength({ min: 3 })
+    .withMessage("Title must not empty and mimimun of 3 characters"),
+  check("description")
+    .not()
+    .isEmpty()
+    .isLength({ min: 3, max: 300 })
+    .withMessage(
+      "Description must not empty and mimimun of 5 characters and max of 300 characters"
+    ),
+];
+
 // Get: /api/posts/
 router.get("/", postController.getAllPosts);
 
@@ -15,10 +30,10 @@ router.get("/:postId", postController.getPostById);
 router.get("/user/:userId", postController.getPostByUserId);
 
 // Post: /api/post/
-router.post("/", postController.createPost);
+router.post("/", postValidation, postController.createPost);
 
 // Patch: /api/post/id1
-router.patch("/:postId", postController.updatePost);
+router.patch("/:postId", postValidation, postController.updatePost);
 
 // Delete: /api/post/id1
 router.delete("/:postId", postController.deletePost);

@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 
-// Intialize
+// Models
 const HttpError = require("../middleware/http-error");
 const UserModel = require("../models/user-model");
 
@@ -45,7 +45,7 @@ exports.postLogin = async (req, res, next) => {
   try {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
   } catch (err) {
-    console.log("Login Hashing Failed", err);
+    console.log("Pasword Hashing Failed", err);
     return next(new HttpError("Input Invalid, Please Check", 422));
   }
 
@@ -92,7 +92,7 @@ exports.postSignup = async (req, res, next) => {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
     console.log("Hashing Password Failed", err);
-    return next(new HttpError("Password Invalid", 422));
+    return next(new HttpError("Invalid Password", 422));
   }
 
   // creating new user

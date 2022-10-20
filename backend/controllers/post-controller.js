@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const { validationResult } = require("express-validator");
 const HttpError = require("../middleware/http-error");
 
@@ -18,6 +17,12 @@ exports.getAllPosts = async (req, res, next) => {
     return next(new HttpError("Fetching Posts Failed", 422));
   }
 
+  // check existing posts
+  if (!posts || posts.length === 0) {
+    console.log("No Posts Found");
+    return next(new Error("No Posts for Provided ID", 500));
+  }
+
   res.json({ posts: posts.map((post) => post.toObject({ getters: true })) });
 };
 
@@ -30,14 +35,14 @@ exports.getPostById = async (req, res, next) => {
   try {
     post = await PostModel.findById(postId);
   } catch (err) {
-    console.log("No Place Found", err);
-    return next(new Error("No Place for Provided ID", 404));
+    console.log("No Posts Found", err);
+    return next(new Error("No Post for Provided ID", 500));
   }
 
   // check existing post
   if (!post || post.length === 0) {
-    console.log("No Place Found");
-    return next(new Error("No Place for Provided ID", 404));
+    console.log("No Posts Found");
+    return next(new Error("No Post for Provided ID", 500));
   }
 
   res.json({ post: post.toObject({ getters: true }) });
@@ -52,7 +57,7 @@ exports.getPostByUserId = async (req, res, next) => {
   try {
     post = await PostModel.find({ creator: userId });
   } catch (err) {
-    return next(new HttpError("No Posts for Provided User"), 404);
+    return next(new HttpError("No Posts for Provided User"), 500);
   }
 
   res.json({ post: post.map((post) => post.toObject({ getters: true })) });
@@ -60,6 +65,12 @@ exports.getPostByUserId = async (req, res, next) => {
 
 // Post: /api/post/
 exports.createPost = async (req, res, next) => {
+  // server validation
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(new HttpError(errors.array()[0].msg, 422));
+  }
+
   const { title, description, creator } = req.body;
 
   // create post schmea
@@ -76,7 +87,7 @@ exports.createPost = async (req, res, next) => {
     user = await UserModel.findById(creator);
   } catch (err) {
     console.log("Cannot Find user");
-    return next(new HttpError("Cannot Find User", 404));
+    return next(new HttpError("Cannot Find User", 500));
   }
 
   try {
@@ -84,7 +95,7 @@ exports.createPost = async (req, res, next) => {
 
     user.posts.push(createPost); // pushing new post to user posts array
     user.save(); // saving user posts array
-    console.log("Posting Success");
+    console.log("Posting Created");
   } catch (err) {
     console.log("Posting Failed", err);
     return next(new HttpError("Posting Failed", 500));
@@ -95,6 +106,13 @@ exports.createPost = async (req, res, next) => {
 
 // Patch: /api/post/id1
 exports.updatePost = async (req, res, next) => {
+  // server validation
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(new HttpError(errors.array()[0].msg, 422));
+  }
+
+  // get data
   const { title, description, creator } = req.body;
   const postId = req.params.postId;
   let post;
@@ -104,7 +122,7 @@ exports.updatePost = async (req, res, next) => {
     post = await PostModel.findById(postId);
   } catch (err) {
     console.log("No Post Found", err);
-    return next(new Error("No Post for Provided ID", 404));
+    return next(new Error("No Post for Provided ID", 500));
   }
 
   // get old data and rewrite to new input
@@ -114,6 +132,7 @@ exports.updatePost = async (req, res, next) => {
 
   try {
     await post.save(); // saving updated post
+    console.log("Post Updated");
   } catch (err) {
     console.log("Updating Failed", err);
     return next(new Error("Updating Failed", 500));
@@ -137,14 +156,14 @@ exports.deletePost = async (req, res, next) => {
 
   // check exisitng post
   if (!post) {
-    return next(new Error("No Post for Provided ID", 404));
+    return next(new Error("No Post for Provided ID", 500));
   }
 
   try {
     await post.remove(); // removing post
     post.creator.posts.pull(post); // removing post from creator array
     await post.creator.save(); // save removed post
-    console.log("Delete Post Successful");
+    console.log("Post Deleted");
   } catch (err) {
     console.log("Deleting Failed", err);
     return next(new Error("Deleting Failed", 500));

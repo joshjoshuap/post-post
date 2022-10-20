@@ -21,6 +21,6 @@ router.post("/", postController.createPost);
 router.patch("/:postId", postController.updatePost);
 
 // Delete: /api/post/id1
-router.delete("/:postId");
+router.delete("/:postId", postController.deletePost);
 
 module.exports = router;

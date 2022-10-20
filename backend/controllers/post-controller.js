@@ -31,13 +31,13 @@ exports.getPostById = async (req, res, next) => {
     post = await PostModel.findById(postId);
   } catch (err) {
     console.log("No Place Found", err);
-    return next(new Error("No Place for Provided ID", 500));
+    return next(new Error("No Place for Provided ID", 404));
   }
 
-  // check post existing
+  // check existing post
   if (!post || post.length === 0) {
     console.log("No Place Found");
-    return next(new Error("No Place for Provided ID", 500));
+    return next(new Error("No Place for Provided ID", 404));
   }
 
   res.json({ post: post.toObject({ getters: true }) });
@@ -52,7 +52,7 @@ exports.getPostByUserId = async (req, res, next) => {
   try {
     post = await PostModel.find({ creator: userId });
   } catch (err) {
-    return next(new HttpError("No Posts for Provided User"), 500);
+    return next(new HttpError("No Posts for Provided User"), 404);
   }
 
   res.json({ post: post.map((post) => post.toObject({ getters: true })) });
@@ -71,12 +71,12 @@ exports.createPost = async (req, res, next) => {
 
   let user;
 
-  // feind user by id
+  // find user by id
   try {
     user = await UserModel.findById(creator);
   } catch (err) {
     console.log("Cannot Find user");
-    return next(new HttpError("Cannot Find User", 500));
+    return next(new HttpError("Cannot Find User", 404));
   }
 
   try {
@@ -93,6 +93,7 @@ exports.createPost = async (req, res, next) => {
   res.status(201).json({ post: createPost });
 };
 
+// Patch: /api/post/id1
 exports.updatePost = async (req, res, next) => {
   const { title, description, creator } = req.body;
   const postId = req.params.postId;
@@ -102,8 +103,8 @@ exports.updatePost = async (req, res, next) => {
   try {
     post = await PostModel.findById(postId);
   } catch (err) {
-    console.log("No Place Found", err);
-    return next(new Error("No Place for Provided ID", 500));
+    console.log("No Post Found", err);
+    return next(new Error("No Post for Provided ID", 404));
   }
 
   // get old data and rewrite to new input
@@ -119,4 +120,35 @@ exports.updatePost = async (req, res, next) => {
   }
 
   res.status(200).json({ post: post.toObject({ getters: true }) });
+};
+
+// Delete: /api/post/id1
+exports.deletePost = async (req, res, next) => {
+  const postId = req.params.postId;
+  let post;
+
+  // finding existing post
+  try {
+    post = await PostModel.findById(postId).populate("creator");
+  } catch (err) {
+    console.log("No Post for Provided ID", err);
+    return next(new Error("No Post for Provided ID", 500));
+  }
+
+  // check exisitng post
+  if (!post) {
+    return next(new Error("No Post for Provided ID", 404));
+  }
+
+  try {
+    await post.remove(); // removing post
+    post.creator.posts.pull(post); // removing post from creator array
+    await post.creator.save(); // save removed post
+    console.log("Delete Post Successful");
+  } catch (err) {
+    console.log("Deleting Failed", err);
+    return next(new Error("Deleting Failed", 500));
+  }
+
+  res.status(200).json({ post: "Post Delete" });
 };

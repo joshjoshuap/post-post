@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 // Routing
 const userRoute = require("./routes/user-route");
+const postRoute = require("./routes/post-route");
 
 // Intialize
 const app = express();
@@ -24,7 +25,10 @@ app.use((req, res, next) => {
   next();
 }); // cors, headers configruation
 
-app.use("/api/user", userRoute);
+
+// Routes
+app.use("/api/user", userRoute); // api/user/...
+app.use("/api/post", postRoute); // api/post/...
 
 // Error Handling
 app.use((error, req, res, next) => {

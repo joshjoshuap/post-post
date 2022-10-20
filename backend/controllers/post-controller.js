@@ -92,3 +92,31 @@ exports.createPost = async (req, res, next) => {
 
   res.status(201).json({ post: createPost });
 };
+
+exports.updatePost = async (req, res, next) => {
+  const { title, description, creator } = req.body;
+  const postId = req.params.postId;
+  let post;
+
+  // finding exisitng post
+  try {
+    post = await PostModel.findById(postId);
+  } catch (err) {
+    console.log("No Place Found", err);
+    return next(new Error("No Place for Provided ID", 500));
+  }
+
+  // get old data and rewrite to new input
+  post.title = title;
+  post.description = description;
+  post.creator = creator;
+
+  try {
+    await post.save(); // saving updated post
+  } catch (err) {
+    console.log("Updating Failed", err);
+    return next(new Error("Updating Failed", 500));
+  }
+
+  res.status(200).json({ post: post.toObject({ getters: true }) });
+};

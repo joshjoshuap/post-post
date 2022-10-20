@@ -18,7 +18,7 @@ router.get("/user/:userId", postController.getPostByUserId);
 router.post("/", postController.createPost);
 
 // Patch: /api/post/id1
-router.patch("/:postId");
+router.patch("/:postId", postController.updatePost);
 
 // Delete: /api/post/id1
 router.delete("/:postId");

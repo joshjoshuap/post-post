@@ -20,7 +20,7 @@ exports.getAllPosts = async (req, res, next) => {
   // check existing posts
   if (!posts || posts.length === 0) {
     console.log("No Posts Found");
-    return next(new Error("No Posts for Provided ID", 500));
+    return next(new Error("No Posts Found", 500));
   }
 
   res.json({ posts: posts.map((post) => post.toObject({ getters: true })) });

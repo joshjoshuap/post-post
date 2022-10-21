@@ -8,6 +8,9 @@ const Navigation = (props) => {
           <Link to="/">Post Post </Link>
         </h3>
         <ul>
+        <li>
+        <Link to="/post/create">Create</Link>
+        </li>
           <li>
             <Link to="/login">Login</Link>
           </li>

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/auth-context";
 
 const CreatePost = () => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [inputTitle, setInputTitle] = useState("");
@@ -30,7 +32,7 @@ const CreatePost = () => {
         body: JSON.stringify({
           title: inputTitle,
           description: inputDescription,
-          creator: "6350f4a6ecd7cd37159df009",
+          creator: auth.userId,
         }),
       });
 

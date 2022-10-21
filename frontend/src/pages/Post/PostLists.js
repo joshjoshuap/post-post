@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import PostItem from "./PostItem";
+import { Link } from "react-router-dom";
+import PostCard from "../../components/PostCard";
 
 const PostList = () => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -7,6 +8,9 @@ const PostList = () => {
   const [posts, setPosts] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -21,21 +25,24 @@ const PostList = () => {
         setPosts(data);
         setIsLoading(true);
       } catch (err) {
-        // setError(true);
-        // setErrorMessage(err.message);
+        setIsLoading(false);
+        setError(true);
+        setErrorMessage(err.message);
         console.log("Create Post Failed", err);
       }
     };
+
     fetchPosts();
   }, [apiBackendUrl]);
 
   return (
     <>
-      {!isLoading && <h1> Loading ... </h1>}
+      <Link to="/post/create">Create Post</Link>
+      {error && !isLoading && <h1>{errorMessage}</h1>}
       {isLoading &&
         posts.posts.map((post) => {
           return (
-            <PostItem
+            <PostCard
               key={post.id}
               id={post.id}
               title={post.title}

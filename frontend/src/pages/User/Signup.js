@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/auth-context";
 
 const Signup = () => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
+
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -53,7 +56,8 @@ const Signup = () => {
         throw new Error(data.message); // server error message
       }
 
-      navigate("/login");
+      navigate("/");
+      auth.login(data.user.id); // set logged session and id
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);

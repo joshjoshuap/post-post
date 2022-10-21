@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../context/auth-context";
 
 const EditPost = (props) => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
-  const navigate = useNavigate();
+  const auth = useContext(AuthContext);
   const postId = useParams().postId;
+  const navigate = useNavigate();
 
   const [inputTitle, setInputTitle] = useState("");
   const [inputDescription, setInputDescription] = useState("");
@@ -45,7 +47,7 @@ const EditPost = (props) => {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      const res = await fetch(`${apiBackendUrl}/api/post/${postId}`, {
+      const res = await fetch(`${apiBackendUrl}/api/post/${postId}/edit`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
@@ -53,7 +55,7 @@ const EditPost = (props) => {
         body: JSON.stringify({
           title: inputTitle,
           description: inputDescription,
-          creator: "6350f4a6ecd7cd37159df009",
+          creator: auth.userId,
         }),
       });
 

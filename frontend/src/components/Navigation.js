@@ -1,22 +1,33 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth-context";
 
 const Navigation = (props) => {
+  const auth = useContext(AuthContext);
+  // const userId = auth.userId;
   return (
     <>
       <nav>
         <h3>
-          <Link to="/">Post Post </Link>
+          <Link to="/"> Post Post </Link>
         </h3>
         <ul>
-          <li>
-            <Link to="/post/create">Create</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>
-          </li>
+          {!auth.isLoggedIn && (
+            <li>
+              <Link to="/login"> Login </Link>
+            </li>
+          )}
+
+          {!auth.isLoggedIn && (
+            <li>
+              <Link to="/signup"> Signup </Link>
+            </li>
+          )}
+          {auth.isLoggedIn && (
+            <li>
+              <button onClick={auth.logout}> Logout </button>
+            </li>
+          )}
         </ul>
       </nav>
       <main>{props.children}</main>

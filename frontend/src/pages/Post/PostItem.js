@@ -1,9 +1,43 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../../context/auth-context";
 
 const PostItem = (props) => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-  const postId = props.id;
+
+  const userId = auth.userId;
+  const postId = useParams().postId;
+
+  const [post, setPost] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const res = await fetch(`${apiBackendUrl}/api/post/${postId}`);
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message); // server error message
+        }
+
+        setPost(data.post);
+        setIsLoading(true);
+      } catch (err) {
+        setError(true);
+        setErrorMessage(err.message);
+        console.log("Create Post Failed", err);
+      }
+    };
+
+    fetchPost();
+  }, [apiBackendUrl, postId]);
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
@@ -26,19 +60,29 @@ const PostItem = (props) => {
   };
 
   return (
-    <div>
-      <h1>{props.title}</h1>
-      <p>{props.description}</p>
+    <>
+      {!isLoading && <h2>Loading..</h2>}
+      {isLoading && (
+        <div>
+          <h1>{post.title}</h1>
+          <p>{post.description}</p>
 
-      <h4>Creator: {props.creator}</h4>
+          <h4>Creator: {post.creator}</h4>
 
-      <div>
-        <Link to={`/post/${props.id}`}>Edit</Link>
-      </div>
-      <form onSubmit={formSubmitHandler}>
-        <button type="submit">Delete</button>
-      </form>
-    </div>
+          {auth.isLoggedIn && userId === post.creator && (
+            <div>
+              <Link to={`/post/${postId}/edit`}>Edit</Link>
+            </div>
+          )}
+
+          {auth.isLoggedIn && userId === post.creator && (
+            <form onSubmit={formSubmitHandler}>
+              <button type="submit">Delete</button>
+            </form>
+          )}
+        </div>
+      )}
+    </>
   );
 };
 

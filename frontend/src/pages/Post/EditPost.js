@@ -1,13 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreatePost = () => {
+const EditPost = (props) => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const navigate = useNavigate();
+  const postId = useParams().postId;
 
   const [inputTitle, setInputTitle] = useState("");
   const [inputDescription, setInputDescription] = useState("");
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch(`${apiBackendUrl}/api/post/${postId}`);
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message); // server error message
+        }
+
+        setInputTitle(data.post.title);
+        setInputDescription(data.post.description);
+      } catch (err) {
+        // setError(true);
+        // setErrorMessage(err.message);
+        console.log("Create Post Failed", err);
+      }
+    };
+    fetchPosts();
+  }, [apiBackendUrl, postId]);
 
   const titleChangeHandler = (event) => {
     setInputTitle(event.target.value);
@@ -17,10 +42,11 @@ const CreatePost = () => {
     setInputDescription(event.target.value);
   };
 
-  const formSubmitHandler = async () => {
+  const formSubmitHandler = async (event) => {
+    event.preventDefault();
     try {
-      const res = await fetch(`${apiBackendUrl}/api/post/`, {
-        method: "POST",
+      const res = await fetch(`${apiBackendUrl}/api/post/${postId}`, {
+        method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
@@ -36,6 +62,8 @@ const CreatePost = () => {
       if (!res.ok) {
         throw new Error(data.message); // server error message
       }
+
+      navigate("/");
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
@@ -78,4 +106,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

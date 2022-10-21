@@ -27,7 +27,7 @@ const PostList = () => {
       }
     };
     fetchPosts();
-  }, []);
+  }, [apiBackendUrl]);
 
   return (
     <>

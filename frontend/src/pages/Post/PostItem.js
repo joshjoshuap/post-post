@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const PostItem = (props) => {
   return (
     <div>
@@ -5,6 +7,10 @@ const PostItem = (props) => {
       <p>{props.description}</p>
 
       <h4>Creator: {props.creator}</h4>
+
+      <div>
+        <Link to={`/post/${props.id}`}>Edit</Link>
+      </div>
     </div>
   );
 };

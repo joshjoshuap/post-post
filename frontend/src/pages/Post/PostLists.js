@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/auth-context";
 import PostCard from "../../components/PostCard";
 
 const PostList = () => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate;
 
   const [posts, setPosts] = useState();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -19,16 +21,16 @@ const PostList = () => {
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.message); // server error message
+          throw new Error(data.message);
         }
 
         setPosts(data);
-        setIsLoading(true);
+        setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
         setError(true);
         setErrorMessage(err.message);
-        console.log("Create Post Failed", err);
+        console.error("Fetch Post Failed\n", err);
       }
     };
 
@@ -37,9 +39,9 @@ const PostList = () => {
 
   return (
     <>
-      <Link to="/post/create">Create Post</Link>
-      {error && !isLoading && <h1>{errorMessage}</h1>}
-      {isLoading &&
+      {isLoading && <h1>Loading</h1>}
+      {error && <h1>{errorMessage}</h1>}
+      {!isLoading &&
         posts.posts.map((post) => {
           return (
             <PostCard

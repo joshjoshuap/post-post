@@ -4,14 +4,21 @@ import { AuthContext } from "../context/auth-context";
 
 const Navigation = (props) => {
   const auth = useContext(AuthContext);
-  // const userId = auth.userId;
+  const userId = auth.userId;
   return (
     <>
       <nav>
         <h3>
           <Link to="/"> Post Post </Link>
         </h3>
+
         <ul>
+          {auth.isLoggedIn && (
+            <li>
+              <Link to={`/post/user/${userId}`}> MyPost </Link>
+            </li>
+          )}
+
           {!auth.isLoggedIn && (
             <li>
               <Link to="/login"> Login </Link>

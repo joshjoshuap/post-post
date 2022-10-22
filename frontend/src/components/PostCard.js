@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 const PostCard = (props) => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
-
   return (
     <div>
       <h1>{props.title}</h1>

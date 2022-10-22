@@ -48,7 +48,7 @@ const Login = () => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.log("Signup Failed", err);
+      console.error("Login Failed\n", err);
     }
   };
 

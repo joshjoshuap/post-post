@@ -13,14 +13,14 @@ exports.getAllPosts = async (req, res, next) => {
   try {
     posts = await PostModel.find();
   } catch (err) {
-    console.log("Fetching Posts Failed");
-    return next(new HttpError("Fetching Posts Failed", 422));
+    console.log("Finding All Posts Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   // check existing posts
   if (!posts || posts.length === 0) {
     console.log("No Posts Found");
-    return next(new Error("No Posts Found", 500));
+    return next(new Error("No Posts Found", 422));
   }
 
   res.json({ posts: posts.map((post) => post.toObject({ getters: true })) });
@@ -31,18 +31,18 @@ exports.getPostById = async (req, res, next) => {
   const postId = req.params.postId; // get paramsid
   let post;
 
-  // findinf exisitng post
+  // finding exisitng post
   try {
     post = await PostModel.findById(postId);
   } catch (err) {
-    console.log("No Posts Found", err);
-    return next(new Error("No Post for Provided ID", 500));
+    console.log("Finding Post ID Failed", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   // check existing post
   if (!post || post.length === 0) {
     console.log("No Posts Found");
-    return next(new Error("No Post for Provided ID", 500));
+    return next(new Error("No Post Found", 422));
   }
 
   res.json({ post: post.toObject({ getters: true }) });
@@ -57,7 +57,14 @@ exports.getPostByUserId = async (req, res, next) => {
   try {
     post = await PostModel.find({ creator: userId });
   } catch (err) {
-    return next(new HttpError("No Posts for Provided User"), 500);
+    console.log("Finding User Post Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
+  }
+
+  // check existing post
+  if (!post || post.length === 0) {
+    console.log("No Posts Found");
+    return next(new Error("No Post Found", 422));
   }
 
   res.json({ post: post.map((post) => post.toObject({ getters: true })) });
@@ -86,8 +93,8 @@ exports.createPost = async (req, res, next) => {
   try {
     user = await UserModel.findById(creator);
   } catch (err) {
-    console.log("Cannot Find user");
-    return next(new HttpError("Cannot Find User", 500));
+    console.log("Finding User ID Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   try {
@@ -97,8 +104,8 @@ exports.createPost = async (req, res, next) => {
     user.save(); // saving user posts array
     console.log("Posting Created");
   } catch (err) {
-    console.log("Posting Failed", err);
-    return next(new HttpError("Posting Failed", 500));
+    console.log("Posting Failed\n", err);
+    return next(new HttpError("Posting Failed", 422));
   }
 
   res.status(201).json({ post: createPost });
@@ -121,8 +128,8 @@ exports.updatePost = async (req, res, next) => {
   try {
     post = await PostModel.findById(postId);
   } catch (err) {
-    console.log("No Post Found", err);
-    return next(new Error("No Post for Provided ID", 500));
+    console.log("No Post Found for Provided ID", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   // get old data and rewrite to new input
@@ -135,7 +142,7 @@ exports.updatePost = async (req, res, next) => {
     console.log("Post Updated");
   } catch (err) {
     console.log("Updating Failed", err);
-    return next(new Error("Updating Failed", 500));
+    return next(new Error("Updating Failed", 422));
   }
 
   res.status(200).json({ post: post.toObject({ getters: true }) });
@@ -151,12 +158,12 @@ exports.deletePost = async (req, res, next) => {
     post = await PostModel.findById(postId).populate("creator");
   } catch (err) {
     console.log("No Post for Provided ID", err);
-    return next(new Error("No Post for Provided ID", 500));
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
-  // check exisitng post
+  // check existing post
   if (!post) {
-    return next(new Error("No Post for Provided ID", 500));
+    return next(new Error("No Post for Provided ID", 422));
   }
 
   try {
@@ -166,7 +173,7 @@ exports.deletePost = async (req, res, next) => {
     console.log("Post Deleted");
   } catch (err) {
     console.log("Deleting Failed", err);
-    return next(new Error("Deleting Failed", 500));
+    return next(new Error("Deleting Failed", 422));
   }
 
   res.status(200).json({ post: "Post Delete" });

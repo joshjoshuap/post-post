@@ -12,7 +12,7 @@ const PostItem = (props) => {
 
   const [post, setPost] = useState();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,11 +28,12 @@ const PostItem = (props) => {
         }
 
         setPost(data.post);
-        setIsLoading(true);
+        setIsLoading(false);
       } catch (err) {
+        setIsLoading(false);
         setError(true);
         setErrorMessage(err.message);
-        console.log("Create Post Failed", err);
+        console.error("Fetch Post Failed", err);
       }
     };
 
@@ -55,14 +56,17 @@ const PostItem = (props) => {
 
       navigate("/");
     } catch (err) {
-      console.log("Delete falied", err);
+      setError(true);
+      setErrorMessage(err.message);
+      console.error("Delete falied", err);
     }
   };
 
   return (
     <>
-      {!isLoading && <h2>Loading..</h2>}
-      {isLoading && (
+      {isLoading && <h1>Loading</h1>}
+      {error && <h1>{errorMessage}</h1>}
+      {!isLoading && (
         <div>
           <h1>{post.title}</h1>
           <p>{post.description}</p>

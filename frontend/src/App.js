@@ -42,6 +42,7 @@ function App() {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
+        <Route path="/post/create" element={<Navigate to="/login" replace />} />
         <Route path="/post/:postId" element={<PostItem />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

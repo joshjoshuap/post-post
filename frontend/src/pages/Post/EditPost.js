@@ -28,9 +28,9 @@ const EditPost = (props) => {
         setInputTitle(data.post.title);
         setInputDescription(data.post.description);
       } catch (err) {
-        // setError(true);
-        // setErrorMessage(err.message);
-        console.log("Create Post Failed", err);
+        setError(true);
+        setErrorMessage(err.message);
+        console.error("Fetch Post Failed", err);
       }
     };
     fetchPosts();
@@ -69,7 +69,7 @@ const EditPost = (props) => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.log("Create Post Failed", err);
+      console.error("Update Post Failed", err);
     }
   };
 

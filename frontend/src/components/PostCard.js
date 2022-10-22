@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const PostCard = (props) => {
-
   return (
     <div>
       <h1>{props.title}</h1>

@@ -13,11 +13,13 @@ exports.getUsers = async (req, res, next) => {
   try {
     users = await UserModel.find({}, "-password");
   } catch (err) {
-    console.log("Fetching User Failed");
-    return next(new HttpError("Fetching User Failed", 422));
+    console.log("Finding User Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
-  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
+  res
+    .status(200)
+    .json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
 // POST: /api/user/login
@@ -25,16 +27,16 @@ exports.postLogin = async (req, res, next) => {
   const { email, password } = req.body; // get parse body data
   let existingUser;
 
-  // find exisiting user
+  // find existing user
   try {
     existingUser = await UserModel.findOne({ email: email });
   } catch (err) {
-    console.log("Finding User Failed", err);
-    return next(new HttpError("Inavalid Input, Please Check", 422));
+    console.log("Finding User Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   if (!existingUser) {
-    console.log("Email / User does not exist, Register Now");
+    console.log("Email Not Exist");
     return next(
       new HttpError("Email / User does not exist, Register Now", 422)
     );
@@ -45,18 +47,18 @@ exports.postLogin = async (req, res, next) => {
   try {
     isValidPassword = await bcrypt.compare(password, existingUser.password);
   } catch (err) {
-    console.log("Pasword Hashing Failed", err);
-    return next(new HttpError("Input Invalid, Please Check", 422));
+    console.log("Password Hashing Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   if (!isValidPassword) {
     console.log("Invalid Password");
-    return next(new HttpError("Invalid Password", 422));
+    return next(new HttpError("Invalid/Incorrect Password", 422));
   } else {
-    console.log("Logged In Successful");
+    console.log("Logged In");
   }
 
-  res.json({
+  res.status(200).json({
     message: "Logged In",
     user: existingUser.toObject({ getters: true }),
   });
@@ -77,13 +79,13 @@ exports.postSignup = async (req, res, next) => {
   try {
     existingUser = await UserModel.findOne({ email: email });
   } catch (err) {
-    console.log("Finding User Failed", err);
-    return next(new HttpError("Invalid Input, Check Inputs", 422));
+    console.log("Finding User Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   if (existingUser) {
     console.log("Email Exist");
-    return next(new HttpError("Email Exist", 422));
+    return next(new HttpError("Email/User Exist, Try Different Email", 422));
   }
 
   // encrypt password
@@ -91,8 +93,8 @@ exports.postSignup = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (err) {
-    console.log("Hashing Password Failed", err);
-    return next(new HttpError("Invalid Password", 422));
+    console.log("Hashing Password Failed\n", err);
+    return next(new HttpError("Server Error, Please Try Again", 500));
   }
 
   // creating new user
@@ -107,9 +109,12 @@ exports.postSignup = async (req, res, next) => {
     await createUser.save();
     console.log("Signup Success");
   } catch (err) {
-    console.log("Signup Failed", err);
-    return next(new HttpError("Signup Failed", 422));
+    console.log("Signup Failed\n", err);
+    return next(new HttpError("Signup Failed, Please Try again", 422));
   }
 
-  res.status(201).json({ user: createUser.toObject({ getters: true }) });
+  res.status(201).json({
+    message: "Signup Success",
+    user: createUser.toObject({ getters: true }),
+  });
 };

@@ -9,6 +9,7 @@ import "./App.css";
 import CreatePost from "./pages/Post/CreatePost";
 import PostItem from "./pages/Post/PostItem";
 import EditPost from "./pages/Post/EditPost";
+import UserPosts from "./pages/Post/UserPosts";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,6 +34,7 @@ function App() {
         <Route path="/post/create" element={<CreatePost />} />
         <Route path="/post/:postId" element={<PostItem />} />
         <Route path="/post/:postId/edit" element={<EditPost />} />
+        <Route path="/post/user/:userId" element={<UserPosts />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </>
     );

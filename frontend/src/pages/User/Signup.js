@@ -57,7 +57,7 @@ const Signup = () => {
       }
 
       navigate("/");
-      auth.login(data.user.id, data.user.name); // set logged session and id
+      auth.login(data.userId, data.name, data.token);
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);

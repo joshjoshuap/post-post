@@ -2,6 +2,7 @@ const express = require("express");
 const { check } = require("express-validator");
 
 const postController = require("../controllers/post-controller");
+const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
 
@@ -28,6 +29,8 @@ router.get("/:postId", postController.getPostById);
 
 // Get: /api/post/user/id1
 router.get("/user/:userId", postController.getPostByUserId);
+
+router.use(checkAuth);
 
 // Post: /api/post/
 router.post("/", postValidation, postController.createPost);

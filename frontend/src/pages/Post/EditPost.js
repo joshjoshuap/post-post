@@ -51,6 +51,7 @@ const EditPost = (props) => {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${auth.jsonWebToken}`,
         },
         body: JSON.stringify({
           title: inputTitle,

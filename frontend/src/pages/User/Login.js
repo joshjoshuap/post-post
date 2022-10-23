@@ -44,7 +44,7 @@ const Login = () => {
       }
 
       navigate("/");
-      auth.login(data.user.id, data.user.name);
+      auth.login(data.userId, data.name, data.token);
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);

@@ -45,6 +45,9 @@ const PostItem = (props) => {
     try {
       const res = await fetch(`${apiBackendUrl}/api/post/${postId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${auth.jsonWebToken}`,
+        },
       });
 
       const data = await res.json();
@@ -58,6 +61,7 @@ const PostItem = (props) => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
+      navigate("/");
     }
   };
 

@@ -13,25 +13,25 @@ import UserPosts from "./pages/Post/UserPosts";
 import UserList from "./pages/User/UserLists";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState();
   const [userName, setUserName] = useState();
+  const [jsonWebToken, setJsonWebToken] = useState();
 
-  const login = useCallback((userId, userName) => {
-    setIsLoggedIn(true);
+  const login = useCallback((userId, userName, token) => {
+    setJsonWebToken(token);
     setUserId(userId);
     setUserName(userName);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setJsonWebToken(null);
     setUserId(null);
     setUserName(null);
   }, []);
 
   let routes;
 
-  if (isLoggedIn) {
+  if (jsonWebToken) {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
@@ -61,7 +61,8 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !!jsonWebToken,
+        jsonWebToken: jsonWebToken,
         userId: userId,
         userName: userName,
         login: login,

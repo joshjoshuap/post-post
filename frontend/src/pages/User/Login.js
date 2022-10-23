@@ -44,11 +44,10 @@ const Login = () => {
       }
 
       navigate("/");
-      auth.login(data.user.id); // set logged session and id
+      auth.login(data.user.id, data.user.name);
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.error("Login Failed\n", err);
     }
   };
 

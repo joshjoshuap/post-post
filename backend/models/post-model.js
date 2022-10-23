@@ -9,10 +9,16 @@ const postSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  creator: {
-    type: mongoose.Types.ObjectId,
-    require: true,
-    ref: "User",
+  user: {
+    name: {
+      type: String,
+      require: true,
+    },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      require: true,
+      ref: "User",
+    },
   },
 });
 

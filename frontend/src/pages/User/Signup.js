@@ -57,11 +57,10 @@ const Signup = () => {
       }
 
       navigate("/");
-      auth.login(data.user.id); // set logged session and id
+      auth.login(data.user.id, data.user.name); // set logged session and id
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.error("Signup Failed\n", err);
     }
   };
 

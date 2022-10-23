@@ -55,7 +55,7 @@ exports.getPostByUserId = async (req, res, next) => {
 
   // fetching post by user id
   try {
-    post = await PostModel.find({ creator: userId });
+    post = await PostModel.find({ "user.userId": userId });
   } catch (err) {
     console.log("Finding User Post Failed\n", err);
     return next(new HttpError("Server Error, Please Try Again", 500));
@@ -78,20 +78,23 @@ exports.createPost = async (req, res, next) => {
     return next(new HttpError(errors.array()[0].msg, 422));
   }
 
-  const { title, description, creator } = req.body;
+  const { title, description, userName, userId } = req.body;
 
   // create post schmea
   const createPost = new PostModel({
     title: title,
     description: description,
-    creator: creator,
+    user: {
+      name: userName,
+      userId: userId,
+    },
   });
 
   let user;
 
   // find user by id
   try {
-    user = await UserModel.findById(creator);
+    user = await UserModel.findById(userId);
   } catch (err) {
     console.log("Finding User ID Failed\n", err);
     return next(new HttpError("Server Error, Please Try Again", 500));
@@ -155,7 +158,10 @@ exports.deletePost = async (req, res, next) => {
 
   // finding existing post
   try {
-    post = await PostModel.findById(postId).populate("creator");
+    post = await PostModel.findById(postId).populate(
+      "user.userId",
+      "-password"
+    );
   } catch (err) {
     console.log("No Post for Provided ID", err);
     return next(new HttpError("Server Error, Please Try Again", 500));
@@ -168,8 +174,8 @@ exports.deletePost = async (req, res, next) => {
 
   try {
     await post.remove(); // removing post
-    post.creator.posts.pull(post); // removing post from creator array
-    await post.creator.save(); // save removed post
+    post.user.userId.posts.pull(post); // removing post from creator array
+    await post.user.userId.save(); // save removed post
     console.log("Post Deleted");
   } catch (err) {
     console.log("Deleting Failed", err);

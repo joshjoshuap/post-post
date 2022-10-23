@@ -69,7 +69,6 @@ const EditPost = (props) => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.error("Update Post Failed", err);
     }
   };
 

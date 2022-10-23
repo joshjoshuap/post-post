@@ -15,15 +15,18 @@ import UserList from "./pages/User/UserLists";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState();
+  const [userName, setUserName] = useState();
 
-  const login = useCallback((userId) => {
+  const login = useCallback((userId, userName) => {
     setIsLoggedIn(true);
     setUserId(userId);
+    setUserName(userName);
   }, []);
 
   const logout = useCallback(() => {
     setIsLoggedIn(false);
     setUserId(null);
+    setUserName(null);
   }, []);
 
   let routes;
@@ -60,6 +63,7 @@ function App() {
       value={{
         isLoggedIn: isLoggedIn,
         userId: userId,
+        userName: userName,
         login: login,
         logout: logout,
       }}

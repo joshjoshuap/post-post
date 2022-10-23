@@ -6,7 +6,7 @@ const PostCard = (props) => {
       <h1>{props.title}</h1>
       <p>{props.description}</p>
 
-      <h4>Creator: {props.creator}</h4>
+      <h4>Posted by: {props.user}</h4>
 
       <div>
         <Link to={`/post/${props.id}`}>View</Link>

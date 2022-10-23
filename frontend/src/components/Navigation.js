@@ -13,6 +13,14 @@ const Navigation = (props) => {
         </h3>
 
         <ul>
+          <li>
+            <Link to="/"> Posts </Link>
+          </li>
+
+          <li>
+            <Link to="/users"> User List </Link>
+          </li>
+
           {auth.isLoggedIn && (
             <li>
               <Link to={`/post/user/${userId}`}> MyPost </Link>

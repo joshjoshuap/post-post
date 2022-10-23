@@ -10,6 +10,7 @@ import CreatePost from "./pages/Post/CreatePost";
 import PostItem from "./pages/Post/PostItem";
 import EditPost from "./pages/Post/EditPost";
 import UserPosts from "./pages/Post/UserPosts";
+import UserList from "./pages/User/UserLists";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,6 +32,7 @@ function App() {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
+        <Route path="/users" element={<UserList />} />
         <Route path="/post/create" element={<CreatePost />} />
         <Route path="/post/:postId" element={<PostItem />} />
         <Route path="/post/:postId/edit" element={<EditPost />} />
@@ -42,8 +44,10 @@ function App() {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
+        <Route path="/users" element={<UserList />} />
         <Route path="/post/create" element={<Navigate to="/login" replace />} />
         <Route path="/post/:postId" element={<PostItem />} />
+        <Route path="/post/user/:userId" element={<UserPosts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Navigate to="/login" replace />} />

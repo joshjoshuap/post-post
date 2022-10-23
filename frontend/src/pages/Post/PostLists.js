@@ -1,12 +1,9 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 
 const PostList = () => {
   const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate;
 
   const [posts, setPosts] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -27,10 +24,9 @@ const PostList = () => {
         setPosts(data);
         setIsLoading(false);
       } catch (err) {
-        setIsLoading(false);
+        setIsLoading(true);
         setError(true);
         setErrorMessage(err.message);
-        console.error("Fetch Post Failed\n", err);
       }
     };
 
@@ -39,8 +35,9 @@ const PostList = () => {
 
   return (
     <>
-      {isLoading && <h1>Loading</h1>}
-      {error && <h1>{errorMessage}</h1>}
+      {isLoading && !error && <h1>Loading</h1>}
+      {error && isLoading && <h1>{errorMessage}</h1>}
+      <Link to="/post/create">Create Post</Link>
       {!isLoading &&
         posts.posts.map((post) => {
           return (
@@ -49,7 +46,7 @@ const PostList = () => {
               id={post.id}
               title={post.title}
               description={post.description}
-              creator={post.creator}
+              user={post.user.name}
             />
           );
         })}

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Navigate,useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 
 const CreatePost = () => {
@@ -29,11 +29,13 @@ const CreatePost = () => {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${auth.jsonWebToken}`,
         },
         body: JSON.stringify({
           title: inputTitle,
           description: inputDescription,
-          creator: auth.userId,
+          userName: auth.userName,
+          userId: auth.userId,
         }),
       });
 
@@ -49,13 +51,11 @@ const CreatePost = () => {
 
       setError(true);
       setErrorMessage(err.message);
-      console.error("Create Post Failed\n", err);
     }
   };
 
   return (
     <div>
-
       {error && <h2>{errorMessage}</h2>}
       <form onSubmit={formSubmitHandler}>
         <div>

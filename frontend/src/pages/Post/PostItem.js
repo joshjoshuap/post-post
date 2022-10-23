@@ -45,6 +45,9 @@ const PostItem = (props) => {
     try {
       const res = await fetch(`${apiBackendUrl}/api/post/${postId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${auth.jsonWebToken}`,
+        },
       });
 
       const data = await res.json();
@@ -58,28 +61,28 @@ const PostItem = (props) => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.error("Delete falied", err);
+      navigate("/");
     }
   };
 
   return (
     <>
-      {isLoading && <h1>Loading</h1>}
-      {error && <h1>{errorMessage}</h1>}
+      {isLoading && !error && <h1>Loading</h1>}
+      {error && isLoading && <h1>{errorMessage}</h1>}
       {!isLoading && (
         <div>
           <h1>{post.title}</h1>
           <p>{post.description}</p>
 
-          <h4>Creator: {post.creator}</h4>
+          <h4>Posted By: {post.user.name}</h4>
 
-          {auth.isLoggedIn && userId === post.creator && (
+          {auth.isLoggedIn && userId === post.user.userId && (
             <div>
               <Link to={`/post/${postId}/edit`}>Edit</Link>
             </div>
           )}
 
-          {auth.isLoggedIn && userId === post.creator && (
+          {auth.isLoggedIn && userId === post.user.userId && (
             <form onSubmit={formSubmitHandler}>
               <button type="submit">Delete</button>
             </form>

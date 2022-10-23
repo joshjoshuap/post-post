@@ -8,7 +8,7 @@ const UserPosts = (props) => {
 
   const [userPosts, setUserPosts] = useState();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -24,12 +24,11 @@ const UserPosts = (props) => {
         }
 
         setUserPosts(data);
-        setIsLoading(true);
-      } catch (err) {
         setIsLoading(false);
+      } catch (err) {
+        setIsLoading(true);
         setError(true);
         setErrorMessage(err.message);
-        console.log("Create Post Failed", err);
       }
     };
 
@@ -39,8 +38,9 @@ const UserPosts = (props) => {
   return (
     <>
       <Link to="/post/create">Create Post</Link>
-      {error && !isLoading && <h1>{errorMessage}</h1>}
-      {isLoading &&
+      {isLoading && !error && <h1>Loading</h1>}
+      {error && isLoading && <h1>{errorMessage}</h1>}
+      {!isLoading &&
         userPosts.post.map((post) => {
           return (
             <PostCard
@@ -48,7 +48,7 @@ const UserPosts = (props) => {
               id={post.id}
               title={post.title}
               description={post.description}
-              creator={post.creator}
+              user={post.user.name}
             />
           );
         })}

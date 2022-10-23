@@ -10,27 +10,32 @@ import CreatePost from "./pages/Post/CreatePost";
 import PostItem from "./pages/Post/PostItem";
 import EditPost from "./pages/Post/EditPost";
 import UserPosts from "./pages/Post/UserPosts";
+import UserList from "./pages/User/UserLists";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState();
+  const [userName, setUserName] = useState();
+  const [jsonWebToken, setJsonWebToken] = useState();
 
-  const login = useCallback((userId) => {
-    setIsLoggedIn(true);
+  const login = useCallback((userId, userName, token) => {
+    setJsonWebToken(token);
     setUserId(userId);
+    setUserName(userName);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setJsonWebToken(null);
     setUserId(null);
+    setUserName(null);
   }, []);
 
   let routes;
 
-  if (isLoggedIn) {
+  if (jsonWebToken) {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
+        <Route path="/users" element={<UserList />} />
         <Route path="/post/create" element={<CreatePost />} />
         <Route path="/post/:postId" element={<PostItem />} />
         <Route path="/post/:postId/edit" element={<EditPost />} />
@@ -42,8 +47,10 @@ function App() {
     routes = (
       <>
         <Route path="/" element={<PostList />} />
+        <Route path="/users" element={<UserList />} />
         <Route path="/post/create" element={<Navigate to="/login" replace />} />
         <Route path="/post/:postId" element={<PostItem />} />
+        <Route path="/post/user/:userId" element={<UserPosts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
@@ -54,8 +61,10 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !!jsonWebToken,
+        jsonWebToken: jsonWebToken,
         userId: userId,
+        userName: userName,
         login: login,
         logout: logout,
       }}

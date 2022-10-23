@@ -51,6 +51,7 @@ const EditPost = (props) => {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${auth.jsonWebToken}`,
         },
         body: JSON.stringify({
           title: inputTitle,
@@ -69,7 +70,6 @@ const EditPost = (props) => {
     } catch (err) {
       setError(true);
       setErrorMessage(err.message);
-      console.error("Update Post Failed", err);
     }
   };
 

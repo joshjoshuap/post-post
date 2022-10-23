@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 // Models
@@ -58,9 +59,29 @@ exports.postLogin = async (req, res, next) => {
     console.log("Logged In");
   }
 
+  let user = existingUser.toObject({ getters: true });
+
+  // jwt token
+  let token;
+  try {
+    token = jwt.sign(
+      {
+        userId: user.id,
+        email: user.email,
+      },
+      process.env.JWT_PRIVATE_KEY,
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    console.log("Json Web Token Failed\n", err);
+    return next(new HttpError("Signup Failed, Please Try again", 422));
+  }
+
   res.status(200).json({
-    message: "Logged In",
-    user: existingUser.toObject({ getters: true }),
+    userId: user.userId,
+    email: user.email,
+    name: user.name,
+    token: token,
   });
 };
 
@@ -113,8 +134,24 @@ exports.postSignup = async (req, res, next) => {
     return next(new HttpError("Signup Failed, Please Try again", 422));
   }
 
+  // jwt token
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: createUser.id, email: createUser.email },
+      process.env.JWT_PRIVATE_KEY,
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    console.log("Json Web Token Failed\n", err);
+    return next(new HttpError("Signup Failed, Please Try again", 422));
+  }
+
   res.status(201).json({
     message: "Signup Success",
-    user: createUser.toObject({ getters: true }),
+    userId: createUser.id,
+    name: createUser.name,
+    email: createUser.email,
+    token: token,
   });
 };

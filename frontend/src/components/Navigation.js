@@ -12,45 +12,6 @@ const Navigation = (props) => {
   const userId = auth.userId;
   return (
     <>
-      {/* <nav>
-        <h3>
-          <Link to="/"> Post Post </Link>
-        </h3>
-
-        <ul>
-          <li>
-            <Link to="/"> Posts </Link>
-          </li>
-
-          <li>
-            <Link to="/users"> User List </Link>
-          </li>
-
-          {auth.isLoggedIn && (
-            <li>
-              <Link to={`/post/user/${userId}`}> MyPost </Link>
-            </li>
-          )}
-
-          {!auth.isLoggedIn && (
-            <li>
-              <Link to="/login"> Login </Link>
-            </li>
-          )}
-
-          {!auth.isLoggedIn && (
-            <li>
-              <Link to="/signup"> Signup </Link>
-            </li>
-          )}
-          {auth.isLoggedIn && (
-            <li>
-              <button onClick={auth.logout}> Logout </button>
-            </li>
-          )}
-        </ul>
-      </nav> */}
-
       <Disclosure as="nav" className="bg-gray-300">
         {({ open }) => (
           <>

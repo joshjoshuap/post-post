@@ -78,7 +78,7 @@ exports.postLogin = async (req, res, next) => {
   }
 
   res.status(200).json({
-    userId: user.userId,
+    userId: user.id,
     email: user.email,
     name: user.name,
     token: token,

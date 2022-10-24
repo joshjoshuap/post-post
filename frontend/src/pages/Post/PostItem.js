@@ -70,23 +70,35 @@ const PostItem = (props) => {
       {isLoading && !error && <h1>Loading</h1>}
       {error && isLoading && <h1>{errorMessage}</h1>}
       {!isLoading && (
-        <div>
-          <h1>{post.title}</h1>
-          <p>{post.description}</p>
+        <div className="flex flex-col justify-between mt-10 px-10">
+          <div>
+            <h1 className="text-4xl font-emibold">{post.title}</h1>
+            <h5 className="text-blue-500">Posted By: {post.user.name}</h5>
+            <div className="flex gap-2 mb-10">
+              {auth.isLoggedIn && userId === post.user.userId && (
+                <Link to={`/post/${postId}/edit`}>
+                  <div className="bg-green-600 w-fit text-neutral-100 rounded-sm px-5 py-2">
+                    Edit
+                  </div>
+                </Link>
+              )}
 
-          <h4>Posted By: {post.user.name}</h4>
-
-          {auth.isLoggedIn && userId === post.user.userId && (
-            <div>
-              <Link to={`/post/${postId}/edit`}>Edit</Link>
+              {auth.isLoggedIn && userId === post.user.userId && (
+                <form onSubmit={formSubmitHandler}>
+                  <button
+                    type="submit"
+                    className="bg-red-600 text-neutral-100 rounded-sm px-5 py-2"
+                  >
+                    Delete
+                  </button>
+                </form>
+              )}
             </div>
-          )}
-
-          {auth.isLoggedIn && userId === post.user.userId && (
-            <form onSubmit={formSubmitHandler}>
-              <button type="submit">Delete</button>
-            </form>
-          )}
+          </div>
+          <div>
+            <p className="text-lg">{post.description}</p>
+          </div>
+          <div className="gap-10"></div>
         </div>
       )}
     </>

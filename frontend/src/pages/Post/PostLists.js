@@ -47,18 +47,21 @@ const PostList = () => {
         </Link>
       </div>
 
-      {!isLoading &&
-        posts.posts.map((post) => {
-          return (
-            <PostCard
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              description={post.description}
-              user={post.user.name}
-            />
-          );
-        })}
+      {!isLoading && (
+        <div className="px-10 flex flex-wrap gap-5">
+          {posts.posts.map((post) => {
+            return (
+              <PostCard
+                key={post.id}
+                id={post.id}
+                title={post.title}
+                description={post.description}
+                user={post.user.name}
+              />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

@@ -5,7 +5,7 @@ import Navigation from "./components/Navigation";
 import PostList from "./pages/Post/PostLists";
 import Login from "./pages/User/Login";
 import Signup from "./pages/User/Signup";
-import "./App.css";
+import "./index.css";
 import CreatePost from "./pages/Post/CreatePost";
 import PostItem from "./pages/Post/PostItem";
 import EditPost from "./pages/Post/EditPost";

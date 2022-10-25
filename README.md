@@ -9,6 +9,7 @@
 - TailwindCSS
 - Javascript
 - ReactJS
+- ViteJS
 - NodeJS
 - ExpressJS
 - MongoDB

@@ -65,13 +65,23 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div className="grid justify-center mt-5">
       {/* {isLoading && <h2>Signing up your account...</h2>} */}
-      {error && <h2>{errorMessage}</h2>}
+      {error && (
+        <p className="bg-red-500 text-neutral-100 p-2 mb-3 text-lg">
+          {errorMessage}
+        </p>
+      )}
       <form onSubmit={formSubmitHandler}>
-        <div>
-          <label htmlFor="inputName"> Name </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputName"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Name
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="text"
             id="inputName"
             name="inputName"
@@ -80,9 +90,15 @@ const Signup = () => {
             placeholder="Enter Your Name"
           />
         </div>
-        <div>
-          <label htmlFor="inputEmail"> Email </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputEmail"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Email
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="text"
             id="inputEmail"
             name="inputEmail"
@@ -91,9 +107,15 @@ const Signup = () => {
             placeholder="Enter Your Email"
           />
         </div>
-        <div>
-          <label htmlFor="inputPassword"> Password </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputPassword"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Password
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="password"
             id="inputPassword"
             name="inputPassword"
@@ -102,9 +124,15 @@ const Signup = () => {
             placeholder="Enter Your Password"
           />
         </div>
-        <div>
-          <label htmlFor="inputConfirmPassword"> Confirm Password </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputConfirmPassword"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Confirm Password
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="password"
             id="inputConfirmPassword"
             name="inputConfirmPassword"
@@ -113,7 +141,12 @@ const Signup = () => {
             placeholder="Confirm your Password"
           />
         </div>
-        <button type="submit">Signup</button>
+        <button
+          type="submit"
+          className="bg-blue-600 text-neutral-100 text-lg rounded-sm px-5 py-2"
+        >
+          Signup
+        </button>
       </form>
     </div>
   );

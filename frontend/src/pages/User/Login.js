@@ -52,12 +52,18 @@ const Login = () => {
   };
 
   return (
-    <div>
-      {error && <h2>{errorMessage}</h2>}
+    <div className="grid justify-center mt-5">
+      {error && <p className="bg-red-500 text-neutral-100 p-2 mb-3 text-lg">{errorMessage}</p>}
       <form onSubmit={formSubmitHandler}>
-        <div>
-          <label htmlFor="inputEmail"> Email </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputEmail"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Email
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="text"
             id="inputEmail"
             name="inputEmail"
@@ -66,9 +72,15 @@ const Login = () => {
             placeholder="Enter Your Email"
           />
         </div>
-        <div>
-          <label htmlFor="inputPassword"> Password </label>
+        <div className="mb-5">
+          <label
+            htmlFor="inputPassword"
+            className="text-2xl font-semibold mb-2 block"
+          >
+            Password
+          </label>
           <input
+            className="text-lg w-full border-2 p-2 border-neutral-900"
             type="password"
             id="inputPassword"
             name="inputPassword"
@@ -77,7 +89,12 @@ const Login = () => {
             placeholder="Enter Your Password"
           />
         </div>
-        <button type="submit">Login</button>
+        <button
+          type="submit"
+          className="bg-blue-600 text-neutral-100 text-lg rounded-sm px-5 py-2"
+        >
+          Login
+        </button>
       </form>
     </div>
   );

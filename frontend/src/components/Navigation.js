@@ -2,7 +2,7 @@ import { useContext, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -117,7 +117,7 @@ const Navigation = (props) => {
                   to="/users"
                   className="block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  User List
+                  Users
                 </Link>
                 {auth.isLoggedIn && (
                   <Link

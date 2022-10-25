@@ -35,9 +35,6 @@ const PostList = () => {
 
   return (
     <>
-      {isLoading && !error && <h1>Loading</h1>}
-      {error && isLoading && <h1>{errorMessage}</h1>}
-
       <div className="text-center w-1/2 mx-auto mt-10 mb-5">
         <Link
           to="/post/create"
@@ -45,6 +42,11 @@ const PostList = () => {
         >
           Create Post
         </Link>
+      </div>
+
+      <div className="grid justify-center mt-10">
+        {isLoading && !error && <h1>Loading</h1>}
+        {error && isLoading && <h1 className="text-5xl font-semibold">{errorMessage}</h1>}
       </div>
 
       {!isLoading && (

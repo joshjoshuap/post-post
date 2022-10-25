@@ -46,8 +46,13 @@ const UserPosts = (props) => {
         </Link>
       </div>
 
-      {isLoading && !error && <h1>Loading</h1>}
-      {error && isLoading && <h1>{errorMessage}</h1>}
+      <div className="grid justify-center mt-10">
+        {isLoading && !error && <h1>Loading</h1>}
+        {error && isLoading && (
+          <h1 className="text-5xl font-semibold">{errorMessage}</h1>
+        )}
+      </div>
+
       {!isLoading && (
         <div className="px-10 flex flex-wrap gap-5">
           {userPosts.post.map((post) => {

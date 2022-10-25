@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import UserCard from "../../components/UserCard";
 
 const UserList = () => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [userList, setUserList] = useState();
 

@@ -1,6 +1,6 @@
 # POST POST
 
-## Link - https://post-post.onrender.com/
+## Link - <https://post-post.onrender.com/>
 
 ### Technologies
 
@@ -9,6 +9,7 @@
 - TailwindCSS
 - Javascript
 - ReactJS
+- ViteJS
 - NodeJS
 - ExpressJS
 - MongoDB

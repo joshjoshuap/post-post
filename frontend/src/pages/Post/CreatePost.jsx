@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/auth-context";
 const textAreaNoResize = { resize: "none" };
 
 const CreatePost = () => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 

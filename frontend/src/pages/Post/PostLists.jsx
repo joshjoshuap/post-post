@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 
 const PostList = () => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [posts, setPosts] = useState();
   const [isLoading, setIsLoading] = useState(true);

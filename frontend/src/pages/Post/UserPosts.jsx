@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 
 const UserPosts = (props) => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
   const userId = useParams().userId;
 
   const [userPosts, setUserPosts] = useState();

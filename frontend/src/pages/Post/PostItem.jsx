@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/auth-context";
 
 const PostItem = (props) => {
-  const apiBackendUrl = process.env.REACT_APP_BACKEND_URL;
+  const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
 

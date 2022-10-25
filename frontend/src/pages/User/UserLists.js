@@ -45,18 +45,26 @@ const UserList = () => {
           Create Post
         </Link>
       </div>
-      {error && !isLoading && <h1>{errorMessage}</h1>}
-      {isLoading &&
-        userList.users.map((user) => {
-          return (
-            <UserCard
-              key={user.id}
-              id={user.id}
-              name={user.name}
-              posts={user.posts}
-            />
-          );
-        })}
+      <div className="grid justify-center mt-10">
+        {error && isLoading && (
+          <h1 className="text-5xl font-semibold">{errorMessage}</h1>
+        )}
+      </div>
+
+      {isLoading && (
+        <div className="flex flex-wrap gap-2 px-3 py-2">
+          {userList.users.map((user) => {
+            return (
+              <UserCard
+                key={user.id}
+                id={user.id}
+                name={user.name}
+                posts={user.posts}
+              />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 };

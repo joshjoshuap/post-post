@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const UserCard = (props) => {
   return (
-    <div className="flex gap-3 py-3 px-5">
+    <div>
       <Link to={`/post/user/${props.id}`}>
         <div className=" border-neutral-900 border-2 rounded-sm py-3 px-5 w-72 whitespace-normal break-all hover:bg-gray-800 hover:text-neutral-100">
           <h2 className="text-xl font-semibold mb-3">{props.name}</h2>

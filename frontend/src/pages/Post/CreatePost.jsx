@@ -60,16 +60,16 @@ const CreatePost = () => {
     <div>
       {error && <h2>{errorMessage}</h2>}
       <div className="flex justify-center mt-5">
-        <form onSubmit={formSubmitHandler}>
-          <div className="mb-5">
-            <label
-              htmlFor="inputTitle"
-              className="text-2xl font-semibold mb-2 block"
-            >
+        <form onSubmit={formSubmitHandler} className="rounded-sm p-5">
+          <h2 className="text-indigo-700 text-center text-3xl font-bold mb-5">
+            Post your Idea
+          </h2>
+          <div className="mb-5 border-b-2 border-neutral-600 py-2">
+            <label htmlFor="inputTitle" className="text-2xl mb-2 block">
               Title
             </label>
             <input
-              className="text-lg w-full border-2 p-2 border-neutral-900"
+              className="text-lg w-full border-2 p-2 border-neutral-600"
               type="text"
               id="inputTitle"
               name="inputTitle"
@@ -78,16 +78,13 @@ const CreatePost = () => {
               placeholder="Enter Title"
             />
           </div>
-          <div className="my-5">
-            <label
-              htmlFor="inputDescription"
-              className="text-2xl font-semibold mb-2 block"
-            >
+          <div className="mb-5 border-b-2 border-neutral-600 py-2">
+            <label htmlFor="inputDescription" className="text-2xl mb-2 block">
               Description
             </label>
 
             <textarea
-              className="text-lg w-full border-2 p-2 border-neutral-900"
+              className="text-lg w-full border-2 p-2 border-neutral-600"
               type="text"
               id="inputDescription"
               name="inputDescription"
@@ -99,7 +96,12 @@ const CreatePost = () => {
               style={textAreaNoResize}
             ></textarea>
           </div>
-          <button type="submit" className="bg-blue-600 text-neutral-100 text-lg rounded-sm px-5 py-2" >Post</button>
+          <button
+            type="submit"
+            className="bg-blue-600 text-neutral-100 text-lg rounded-sm w-full px-5 py-2"
+          >
+            Post
+          </button>
         </form>
       </div>
     </div>

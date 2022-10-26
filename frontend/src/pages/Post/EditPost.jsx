@@ -77,7 +77,7 @@ const EditPost = (props) => {
     <div>
       {error && <h2>{errorMessage}</h2>}
       <div className="flex justify-center mt-5">
-        <form onSubmit={formSubmitHandler}>
+        <form onSubmit={formSubmitHandler} className="rounded-sm p-5">
           <h2 className="text-indigo-700 text-center text-3xl font-bold">
             Edit Post
           </h2>

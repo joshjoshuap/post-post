@@ -38,7 +38,7 @@ const PostList = () => {
       <div className="text-center w-1/2 mx-auto mt-10 mb-5">
         <Link
           to="/post/create"
-          className="bg-emerald-500 text-neutral-100 px-3 py-2 rounded-sm"
+          className="bg-emerald-500 text-neutral-100 text-xl px-5 py-3 rounded-sm"
         >
           Create Post
         </Link>
@@ -46,11 +46,13 @@ const PostList = () => {
 
       <div className="grid justify-center mt-10">
         {isLoading && !error && <h1>Loading</h1>}
-        {error && isLoading && <h1 className="text-5xl font-semibold">{errorMessage}</h1>}
+        {error && isLoading && (
+          <h1 className="text-5xl font-semibold">{errorMessage}</h1>
+        )}
       </div>
 
       {!isLoading && (
-        <div className="px-10 flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5 px-10 ">
           {posts.posts.map((post) => {
             return (
               <PostCard

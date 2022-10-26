@@ -70,11 +70,11 @@ const PostItem = (props) => {
       {isLoading && !error && <h1>Loading</h1>}
       {error && isLoading && <h1>{errorMessage}</h1>}
       {!isLoading && (
-        <div className="flex flex-col justify-between mt-10 px-10">
-          <div>
-            <h1 className="text-4xl font-emibold">{post.title}</h1>
+        <div className="bg-neutral-50 mx-auto w-11/12 md:w-8/12 lg:w-6/12 mt-10 border-2 border-neutral-600 py-3 px-5">
+          <div className="mb-10 text-center">
+            <h1 className=" text-4xl font-emibold mb-3">{post.title}</h1>
             <h5 className="text-blue-500">Posted By: {post.user.name}</h5>
-            <div className="flex gap-2 mb-10">
+            <div className="flex w-1/2 mx-auto gap-2 my-3">
               {auth.isLoggedIn && userId === post.user.userId && (
                 <Link to={`/post/${postId}/edit`}>
                   <div className="bg-green-600 w-fit text-neutral-100 rounded-sm px-5 py-2">
@@ -95,10 +95,11 @@ const PostItem = (props) => {
               )}
             </div>
           </div>
-          <div>
-            <p className="text-lg">{post.description}</p>
-          </div>
-          <div className="gap-10"></div>
+
+          <p className="text-lg wrap break-all">
+            {post.description}
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          </p>
         </div>
       )}
     </>

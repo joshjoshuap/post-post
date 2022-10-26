@@ -97,7 +97,9 @@ const Navigation = (props) => {
               <div className="px-5 pt-5 pb-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <a className="text-xl font-semibold">Post Post</a>
+                    <Link to="/" className="text-xl font-semibold">
+                      Post Post
+                    </Link>
                   </div>
 
                   {/* Navbar Mobile Button */}
@@ -113,22 +115,21 @@ const Navigation = (props) => {
               {/* Navbar Items */}
               <div className="space-y-6 py-6 px-5">
                 <div className="grid grid-cols-1 gap-y-4 gap-x-8">
-                  {!auth.isLoggedIn && (
-                    <>
-                      <Link
-                        to="/"
-                        className="text-base font-medium text-gray-900 hover:text-gray-700"
-                      >
-                        Posts
-                      </Link>
-                      <Link
-                        to="/users"
-                        className="text-base font-medium text-gray-900 hover:text-gray-700"
-                      >
-                        Users
-                      </Link>
-                    </>
-                  )}
+                  <>
+                    <Link
+                      to="/"
+                      className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    >
+                      Posts
+                    </Link>
+                    <Link
+                      to="/users"
+                      className="text-base font-medium text-gray-900 hover:text-gray-700"
+                    >
+                      Users
+                    </Link>
+                  </>
+
                   {auth.isLoggedIn && (
                     <Link
                       to={`/post/user/${userId}`}

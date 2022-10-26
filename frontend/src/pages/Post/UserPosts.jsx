@@ -40,7 +40,7 @@ const UserPosts = (props) => {
       <div className="text-center w-1/2 mx-auto mt-10 mb-5">
         <Link
           to="/post/create"
-          className="bg-emerald-500 text-neutral-100 px-3 py-2 rounded-sm"
+          className="bg-emerald-500 text-neutral-100 text-xl px-5 py-3 rounded-sm"
         >
           Create Post
         </Link>
@@ -54,7 +54,7 @@ const UserPosts = (props) => {
       </div>
 
       {!isLoading && (
-        <div className="px-10 flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5 px-10 ">
           {userPosts.post.map((post) => {
             return (
               <PostCard

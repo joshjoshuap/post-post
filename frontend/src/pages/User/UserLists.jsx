@@ -40,11 +40,12 @@ const UserList = () => {
       <div className="text-center w-1/2 mx-auto mt-10 mb-5">
         <Link
           to="/post/create"
-          className="bg-emerald-500 text-neutral-100 px-3 py-2 rounded-sm"
+          className="bg-emerald-500 text-neutral-100 text-xl px-5 py-3 rounded-sm"
         >
           Create Post
         </Link>
       </div>
+
       <div className="grid justify-center mt-10">
         {error && isLoading && (
           <h1 className="text-5xl font-semibold">{errorMessage}</h1>

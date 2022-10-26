@@ -15,7 +15,7 @@ const postValidation = [
   check("description")
     .not()
     .isEmpty()
-    .isLength({ min: 3, max: 300 })
+    .isLength({ min: 3, max: 800 })
     .withMessage(
       "Description must not empty and mimimun of 5 characters and max of 300 characters"
     ),

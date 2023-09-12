@@ -25,7 +25,6 @@ app.use((req, res, next) => {
   next();
 }); // cors, headers configruation
 
-
 // Routes
 app.use("/api/user", userRoute); // api/user/...
 app.use("/api/post", postRoute); // api/post/...

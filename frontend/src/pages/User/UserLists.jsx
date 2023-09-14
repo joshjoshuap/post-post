@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserCard from "../../components/UserCard";
+import { CircularProgress } from "@nextui-org/react";
 
 const UserList = () => {
   const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -25,7 +26,7 @@ const UserList = () => {
         setUserList(data);
         setIsLoading(true);
       } catch (err) {
-        setIsLoading(false);
+        setIsLoading(true);
         setError(true);
         setErrorMessage(err.message);
         console.log("Create Post Failed", err);
@@ -37,10 +38,10 @@ const UserList = () => {
 
   return (
     <>
-      <div className="text-center w-1/2 mx-auto mt-10 mb-5">
+      <div className="w-1/2 mx-auto mt-10 mb-5 text-center">
         <Link
           to="/post/create"
-          className="bg-emerald-500 text-neutral-100 text-xl px-5 py-3 rounded-sm"
+          className="px-5 py-3 text-xl transition-all duration-300 bg-blue-700 rounded-sm text-neutral-100 hover:bg-blue-600"
         >
           Create Post
         </Link>
@@ -50,10 +51,16 @@ const UserList = () => {
         {error && isLoading && (
           <h1 className="text-5xl font-semibold">{errorMessage}</h1>
         )}
+        {isLoading && error && (
+          <CircularProgress
+            color="primary"
+            label="Loading..."
+          />
+        )}
       </div>
 
       {isLoading && (
-        <div className="flex flex-wrap gap-2 px-3 py-2">
+        <div className="grid grid-cols-1 gap-5 px-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
           {userList.users.map((user) => {
             return (
               <UserCard

@@ -52,25 +52,28 @@ const Login = () => {
   };
 
   return (
-    <div className="grid justify-center align-middle mt-5">
+    <div className="grid justify-center mt-5 align-middle">
       {error && (
-        <p className="bg-red-500 text-neutral-100 p-2 mb-3 text-lg">
+        <p className="p-2 mb-3 text-lg bg-red-500 text-neutral-100">
           {errorMessage}
         </p>
       )}
-      <form onSubmit={formSubmitHandler} className="rounded-sm p-5">
-        <h2 className="text-indigo-700 text-center text-3xl font-bold mb-5">
+      <form
+        onSubmit={formSubmitHandler}
+        className="p-5 rounded-sm"
+      >
+        <h2 className="mb-5 text-3xl font-bold text-center text-indigo-700">
           Sign in to your account
         </h2>
-        <div className="mb-5 border-b-2 border-neutral-600  py-2">
+        <div className="py-2 mb-5 border-b-2 border-neutral-900">
           <label
             htmlFor="inputEmail"
-            className="text-2xl mb-2 block"
+            className="block mb-2 text-2xl"
           >
             Email
           </label>
           <input
-           className="text-lg w-full border-2 p-2 border-neutral-600"
+            className="w-full p-2 text-lg border-2 rounded border-neutral-500"
             type="text"
             id="inputEmail"
             name="inputEmail"
@@ -79,12 +82,15 @@ const Login = () => {
             placeholder="Enter Your Email"
           />
         </div>
-        <div className="mb-5 border-b-2 border-neutral-600 py-2">
-          <label htmlFor="inputPassword" className="block text-2xl mb-2">
+        <div className="py-2 mb-5 border-b-2 border-neutral-800">
+          <label
+            htmlFor="inputPassword"
+            className="block mb-2 text-2xl"
+          >
             Password
           </label>
           <input
-          className="text-lg w-full border-2 p-2 border-neutral-600"
+            className="w-full p-2 text-lg border-2 rounded border-neutral-500"
             type="password"
             id="inputPassword"
             name="inputPassword"
@@ -95,7 +101,7 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-600 text-neutral-100 text-lg w-full rounded-sm px-5 py-2 hover:bg-blue-700"
+          className="w-full px-5 py-2 text-lg bg-blue-600 rounded-sm text-neutral-100 hover:bg-blue-700"
         >
           Login
         </button>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import UserCard from "../../components/UserCard";
+import { CircularProgress } from "@nextui-org/react";
 
 const UserList = () => {
   const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -25,7 +26,7 @@ const UserList = () => {
         setUserList(data);
         setIsLoading(true);
       } catch (err) {
-        setIsLoading(false);
+        setIsLoading(true);
         setError(true);
         setErrorMessage(err.message);
         console.log("Create Post Failed", err);
@@ -49,6 +50,12 @@ const UserList = () => {
       <div className="grid justify-center mt-10">
         {error && isLoading && (
           <h1 className="text-5xl font-semibold">{errorMessage}</h1>
+        )}
+        {isLoading && error && (
+          <CircularProgress
+            color="primary"
+            label="Loading..."
+          />
         )}
       </div>
 

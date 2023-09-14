@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PostCard from "../../components/PostCard";
+import { CircularProgress } from "@nextui-org/react";
 
 const PostList = () => {
   const apiBackendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -45,7 +46,12 @@ const PostList = () => {
       </div>
 
       <div className="grid justify-center mt-10">
-        {isLoading && !error && <h1>Loading</h1>}
+        {isLoading && !error && (
+          <CircularProgress
+            color="primary"
+            label="Loading..."
+          />
+        )}
         {error && isLoading && (
           <h1 className="text-5xl font-semibold">{errorMessage}</h1>
         )}
